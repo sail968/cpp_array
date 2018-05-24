@@ -7,7 +7,7 @@ public:
     MyVector();
     ~MyVector();
     void push_back(T item);
-    int get_at(int position);
+    T& get_at(int position);
     int find_element(T item);
     void delete_element(T item);
     void insert_element(T item, int position);
@@ -28,20 +28,20 @@ private:
 };
 
 
-template <typename Type>
-MyVector<Type>::MyVector() : capacity(2), head(0), tail(0) {
-    array = new Type[capacity];
+template <typename T>
+MyVector<T>::MyVector() : capacity(4), head(0), tail(0) {
+    array = new T[capacity];
 }
 
-template <typename Type>
-MyVector<Type>::~MyVector() {
+template <typename T>
+MyVector<T>::~MyVector() {
     delete[] array;
 }
 
-template <typename Type>
-void MyVector<Type>::extend_array() {
+template <typename T>
+void MyVector<T>::extend_array() {
     int i = 0;
-    Type *temp_array = new Type[capacity * 2];
+    T *temp_array = new T[capacity * 2];
 
     for (int j = head; j < tail; j++) {
         temp_array[i] = array[j % capacity];
@@ -55,23 +55,24 @@ void MyVector<Type>::extend_array() {
     array = temp_array;
 }
 
-template <typename Type>
-void MyVector<Type>::push_back(Type item) {
+template <typename T>
+void MyVector<T>::push_back(T item) {
     if (tail - head == capacity) {
         extend_array();
     }
-    array[tail % capacity] = item;
+
+    array[tail] = item;
     tail++;
 }
 
-template <typename Type>
-Type MyVector<Type>::get_at(int position) {
+template <typename T>
+T& MyVector<T>::get_at(int position) {
     assert(position > tail);
     return array[position];
 }
 
-template<typename Type>
-int MyVector<Type>::find_element(Type item) {
+template<typename T>
+int MyVector<T>::find_element(T item) {
     for (int i = head; i < tail; i++) {
         if (array[i] == item) {
             return i;
@@ -80,8 +81,8 @@ int MyVector<Type>::find_element(Type item) {
     return -1;
 }
 
-template<typename Type>
-void MyVector<Type>::delete_element(Type item) {
+template<typename T>
+void MyVector<T>::delete_element(T item) {
     int delete_position = find_element(item);
     for (int i = delete_position; i < tail; i++) {
         array[i] = array[i + 1];
@@ -89,13 +90,13 @@ void MyVector<Type>::delete_element(Type item) {
     tail--;
 }
 
-template<typename Type>
-void MyVector<Type>::insert_element(Type item, int position) {
+template<typename T>
+void MyVector<T>::insert_element(T item, int position) {
     if (tail - head == capacity) {
         extend_array();
     }
-    for (int i = position; i < tail; i++) {
-        array[i + 1] = array[i];
+    for (int i = tail; i > position; i--) {
+        array[i] = array[i-1];
     }
     array[position % capacity] = item;
     tail++;
