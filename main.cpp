@@ -1,5 +1,7 @@
 #include "Vector.hpp"
 
+#include "tests.h"
+
 int main() {
     MyVector<int> vector;
 
@@ -21,6 +23,8 @@ int main() {
         std::cout << vector[i] << std::endl;
 //        assert(vector.get_at(i) == vector[i]);
     }
+
+    run_all_tests();
 
     return 0;
 }

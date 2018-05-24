@@ -1,3 +1,6 @@
+#ifndef VECTOR
+#define VECTOR
+
 #include <cassert>
 #include <iostream>
 
@@ -44,7 +47,7 @@ void MyVector<T>::extend_array() {
     T *temp_array = new T[capacity * 2];
 
     for (int j = head; j < tail; j++) {
-        temp_array[i] = array[j % capacity];
+        temp_array[i] = array[j];
         i++;
     }
 
@@ -98,7 +101,7 @@ void MyVector<T>::insert_element(T item, int position) {
     for (int i = tail; i > position; i--) {
         array[i] = array[i-1];
     }
-    array[position % capacity] = item;
+    array[position] = item;
     tail++;
 }
 
@@ -106,3 +109,5 @@ template<typename T>
 T &MyVector<T>::operator[](int position) {
     return array[position];
 }
+
+#endif // VECTOR
